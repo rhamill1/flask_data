@@ -1,0 +1,21 @@
+body {
+  width: 70%;
+  margin: auto;
+  color: black;
+  text-align: center;
+}
+
+h1 {
+  font-family: Lato;
+  font-size: 4em;
+  font-weight: 600;
+  margin: 20px;
+}
+
+.landing-img {
+  background-size: cover;
+  height: 550px;
+  background-image: url(https://i.imgur.com/QIQhCuz.jpg);
+  position: relative;
+  background-repeat: no-repeat;
+}

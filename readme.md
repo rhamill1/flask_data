@@ -1,7 +1,7 @@
 ##### Environment start up instructions
 ```
 $ virtualenv venv
-$ venv/bin/activate
+$ source venv/bin/activate
 $ pip install Flask
 $ pip install gunicorn
 $ pip freeze > requirements.txt
