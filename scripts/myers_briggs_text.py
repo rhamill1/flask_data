@@ -1,9 +1,7 @@
 
 import pandas as pd
 import numpy as np
-import pickle
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.cross_validation import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 
@@ -17,8 +15,7 @@ def string_to_words(input_df):
   for index, row in input_df.iterrows():
     three_pipe_split = row['posts'].split('|||')
     merged_posts_string = ' '.join(three_pipe_split)
-    words_split = merged_posts_string.split()
-    words.append(words_split)
+    words.append(merged_posts_string)
 
   return words
 
@@ -43,7 +40,35 @@ def create_working_df(input_df):
   working_df.loc[working_df['type']=='ESFP','type',]=13
   working_df.loc[working_df['type']=='ESTJ','type',]=14
   working_df.loc[working_df['type']=='ESFJ','type',]=15
-
+  print working_df
   return working_df
 
-working_df = create_working_df(input_test_train_df.head())
+working_df = create_working_df(input_test_train_df)
+
+
+working_df_x = working_df['words']
+working_df_y = working_df['type']
+
+x_train, x_test, y_train, y_test = train_test_split(working_df_x, working_df_y, test_size=0.2, random_state=4)
+
+cv = CountVectorizer()
+x_traincv = cv.fit_transform(x_train)
+
+x_testcv = cv.transform(x_test)
+y_train = list(y_train.values)
+
+mnb = MultinomialNB()
+mnb.fit(x_traincv, y_train)
+
+predictions = mnb.predict(x_testcv)
+
+
+# check predictions
+a = np.array(y_test)
+
+count = 0
+for i in range (len(predictions)):
+  if predictions[i] == a[i]:
+    count += 1
+
+print count / float(len(predictions))
